@@ -1,0 +1,384 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Unified Agency Architecture — Canonical Specification</title>
+<meta name="description" content="Unified Agency Architecture (UAA) establishes execution governance through measurement-derived admissibility and externally enforced execution authorization." />
+
+<style>
+  :root{
+    --bg:#ffffff;
+    --text:#111111;
+    --muted:#666666;
+    --border:#e5e5e5;
+    --panel:#fafafa;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.55;
+  }
+
+  .wrap{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 22px 48px;
+  }
+
+  header{
+    border-bottom:1px solid var(--border);
+    padding-bottom:14px;
+    margin-bottom:18px;
+  }
+
+  h1{
+    font-size:30px;
+    font-weight:650;
+    margin:0 0 6px 0;
+    letter-spacing:0.2px;
+  }
+
+  .sub{
+    font-size:14px;
+    color:var(--muted);
+    margin:0;
+  }
+
+  .invariant{
+    margin-top:14px;
+    padding: 14px 14px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:8px;
+  }
+
+  .invariant strong{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:#333;
+    margin-bottom:8px;
+  }
+
+  .invariant p{
+    margin:0;
+    font-size:15px;
+    color:#222;
+  }
+
+  nav{
+    margin-top:14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 14px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  nav a{
+    color:inherit;
+    text-decoration:none;
+    border-bottom:1px dotted transparent;
+  }
+  nav a:hover{
+    border-bottom-color:var(--muted);
+  }
+
+  hr{
+    border:none;
+    border-top:1px solid var(--border);
+    margin: 22px 0;
+  }
+
+  h2{
+    font-size:20px;
+    font-weight:650;
+    margin: 28px 0 10px 0;
+    letter-spacing:0.1px;
+  }
+
+  p{
+    font-size:15px;
+    color:#222;
+    margin: 8px 0;
+  }
+
+  .callout{
+    border-left:3px solid #d7d7d7;
+    padding: 8px 12px;
+    margin: 12px 0;
+    color:#222;
+    background: #fcfcfc;
+  }
+
+  .diagram{
+    margin: 12px 0 10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:8px;
+    padding:14px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#333;
+    white-space:pre;
+    overflow:auto;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  .card{
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding: 12px 12px;
+    background:#fff;
+  }
+  .card .t{
+    font-weight:650;
+    font-size:14px;
+    margin-bottom:6px;
+  }
+  .card .d{
+    font-size:14px;
+    color:#222;
+  }
+
+  ul{
+    margin: 8px 0 8px 22px;
+    color:#222;
+    font-size:15px;
+  }
+
+  .metaBlock{
+    font-size:14px;
+    color:#222;
+  }
+
+  .contact{
+    font-size:14px;
+    color:#222;
+  }
+  .contact a{
+    color:inherit;
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+  }
+  .contact a:hover{
+    border-bottom-color:#999;
+  }
+
+  footer{
+    margin-top: 34px;
+    padding-top: 14px;
+    border-top:1px solid var(--border);
+    font-size:12px;
+    color:#777;
+  }
+
+  @media (max-width: 740px){
+    .grid{ grid-template-columns: 1fr; }
+    h1{ font-size:26px; }
+  }
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header>
+      <h1>Unified Agency Architecture</h1>
+      <p class="sub">Canonical Specification Overview • Execution Governance Derived from Measured Admissibility</p>
+
+      <div class="invariant" id="invariant">
+        <strong>Structural Invariant</strong>
+        <p>
+          Execution authority does not exist by default. Execution authority exists only when admissibility
+          conditions are measurably satisfied at execution time and authorization has been issued based on
+          measured admissibility state.
+        </p>
+      </div>
+
+      <nav aria-label="On-page navigation">
+        <a href="#overview">Overview</a>
+        <a href="#differentiation">Differentiation</a>
+        <a href="#measurement">Measurement &amp; Admissibility</a>
+        <a href="#authorization">Authorization &amp; Enforcement</a>
+        <a href="#flow">Execution Flow</a>
+        <a href="#components">Architecture Components</a>
+        <a href="#implication">Architectural Implication</a>
+        <a href="#ip">Research &amp; IP Status</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section id="overview">
+      <h2>1. Overview</h2>
+      <p>
+        Unified Agency Architecture (UAA) establishes execution governance by making execution authority conditional.
+        Execution capability and execution authority are structurally separated: a system may possess the capability to execute,
+        but authority to execute exists only when admissibility conditions are satisfied and externally validated at execution time.
+      </p>
+      <p>
+        UAA derives authorization from measured admissibility state rather than internal policy assertion, discretionary controls,
+        or static permission assignment. If admissibility conditions are not satisfied, authorization is not issued and execution cannot proceed.
+      </p>
+    </section>
+
+    <hr />
+
+    <section id="differentiation">
+      <h2>2. Differentiation</h2>
+      <p>
+        Conventional governance approaches typically operate through declarative policy, behavioral monitoring, retrospective audit,
+        or permissions assigned by identity or role. These mechanisms influence or evaluate behavior, but do not determine whether execution
+        authority exists at the moment execution occurs.
+      </p>
+      <div class="callout">
+        UAA differs structurally: execution authority is derived from measurement. Authority is issued only when measured admissibility
+        conditions are satisfied. Authority is not assumed, permanently granted, or retroactively enforced.
+      </div>
+      <p>
+        This distinguishes UAA from governance-as-oversight. UAA establishes governance as an enforceable execution condition: authorization
+        is contingent on admissibility determination, and execution control points enforce dependency on valid authorization.
+      </p>
+    </section>
+
+    <hr />
+
+    <section id="measurement">
+      <h2>3. Measurement and Admissibility</h2>
+      <p>
+        Measurement evaluates system conditions relevant to execution admissibility and produces an admissibility state.
+        Admissibility state represents the evaluated condition of execution validity and boundary integrity at execution time.
+      </p>
+      <p>
+        Authorization issuance is derived from admissibility state. Execution authority does not exist independently of admissibility determination.
+        The measurement layer is described architecturally (not operationally) to preserve intellectual boundary: this specification defines the dependency
+        of authority on measured admissibility, without disclosing formulas, thresholds, algorithms, or internal signal sources.
+      </p>
+      <ul>
+        <li>Measurement produces admissibility state.</li>
+        <li>Admissibility state determines whether execution authority may exist.</li>
+        <li>Authorization issuance is contingent on admissibility determination.</li>
+        <li>Execution proceeds only when valid authorization is present at execution control points.</li>
+      </ul>
+    </section>
+
+    <hr />
+
+    <section id="authorization">
+      <h2>4. Authorization and Enforcement</h2>
+      <p>
+        UAA uses cryptographically verifiable authorization to represent execution authority. Authorization is issued only when admissibility
+        conditions are satisfied. Execution is structurally dependent on valid authorization; without it, execution cannot proceed.
+      </p>
+      <p>
+        Execution control points enforce this dependency by requiring valid authorization for effectuation. This describes an architectural requirement:
+        execution control points must not permit execution without externally issued, verifiable authorization derived from admissibility state.
+      </p>
+    </section>
+
+    <hr />
+
+    <section id="flow">
+      <h2>5. Execution Flow Model</h2>
+      <div class="diagram" aria-label="Structural execution flow model">
+Measurement
+  ↓
+Admissibility Determination
+  ↓
+Authorization Issuance (Cryptographically Verifiable)
+  ↓
+Execution Control Point (Authorization Required)
+  ↓
+Execution Enabled or Blocked
+      </div>
+      <p>
+        The flow model reinforces the invariant: execution authority is conditionally issued based on measured admissibility state at execution time.
+        If admissibility conditions are not satisfied, authorization is not issued and execution is blocked at control points.
+      </p>
+    </section>
+
+    <hr />
+
+    <section id="components">
+      <h2>6. Architecture Components</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="t">Measurement Layer</div>
+          <div class="d">Evaluates system conditions relevant to execution admissibility and produces admissibility state.</div>
+        </div>
+        <div class="card">
+          <div class="t">Admissibility Determination Layer</div>
+          <div class="d">Determines whether execution authority may exist based on measured admissibility state.</div>
+        </div>
+        <div class="card">
+          <div class="t">Authorization Issuance Layer</div>
+          <div class="d">Issues cryptographically verifiable authorization representing execution authority when admissible.</div>
+        </div>
+        <div class="card">
+          <div class="t">Execution Control Layer</div>
+          <div class="d">Enforces structural dependency on valid authorization for execution; blocks execution otherwise.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <section id="implication">
+      <h2>7. Architectural Implication</h2>
+      <p>
+        UAA establishes governance as a measurable system condition rather than a policy declaration. Execution authority becomes conditionally issued,
+        not statically granted. Execution capability becomes structurally dependent on admissibility determination at execution time. Execution authority
+        cannot exist outside admissibility conditions because authorization is not issued when admissibility is not satisfied.
+      </p>
+      <p>
+        This specification defines the structural dependency and enforceable control relationship. It intentionally does not disclose measurement formulas,
+        thresholding logic, internal signals, or proprietary computation mechanisms.
+      </p>
+    </section>
+
+    <hr />
+
+    <section id="ip">
+      <h2>8. Research and Intellectual Property Status</h2>
+      <div class="metaBlock">
+        Provisional Patent Filed — January 2026<br />
+        Architecture Specification Complete<br />
+        Academic Publication Submission in Progress
+      </div>
+    </section>
+
+    <hr />
+
+    <section id="contact">
+      <h2>9. Contact</h2>
+      <div class="contact">
+        Governance and research inquiries:<br /><br />
+        Email: <a href="mailto:governance@unifiedagencyarchitecture.org">governance@unifiedagencyarchitecture.org</a><br />
+        Phone: <a href="tel:+18556963097">+1 855-696-3097</a>
+      </div>
+    </section>
+
+    <footer>
+      Unified Agency Architecture<br />
+      © 2026
+    </footer>
+
+  </div>
+</body>
+</html>
+```
